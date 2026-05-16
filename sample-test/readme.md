@@ -174,7 +174,7 @@ docker build -t sample-test:latest
 
 [https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html] 
 
-# STEP 4 — Push Image to AWS ECR (BONUS)
+# STEP 4 — Push Image to AWS ECR
 * Create ECR Repository
 
 
@@ -208,7 +208,7 @@ docker tag sample-test:latest \
 docker push \
 117211782260.dkr.ecr.us-east-1.amazonaws.com/sample-test:latest
 ```
-
+![ECR-repo.png](ECR-repo.png)
 
 ====================================
 # STEP 4 create eks cluster using terraform
@@ -287,7 +287,9 @@ terraform apply  # create all that you see in plan
 
 * *IT will take 30min or more to create aws eks cluster*
 * after creation take access of the eks cluster
+![EKS-cluster.png](EKS-cluster.png)
 
+### Take access of EKS cluster
 ```sh
 aws eks update-kubeconfig --region us-east-1 --name my-eks-cluster
 ```
@@ -302,6 +304,7 @@ NAME                         STATUS   ROLES    AGE   VERSION
 ip-10-0-1-198.ec2.internal   Ready    <none>   47m   v1.31.14-eks-7fcd7ec
 ip-10-0-2-250.ec2.internal   Ready    <none>   47m   v1.31.14-eks-7fcd7ec
 ```
+![node-group.png](node-group.png)
 
 # STEP 5 install Helm 
 - we are deploying application using helm chart on eks cluster
@@ -532,6 +535,7 @@ kubectl top nodes
 ```sh
 helm install sample-test sample-test
 
+#you will see this status
 /sample-test/helm# helm install sample-test sample-test
 NAME: sample-test
 LAST DEPLOYED: Fri May 15 15:13:53 2026
@@ -545,6 +549,7 @@ TEST SUITE: None
 ```sh
 kubectl get pods
 ```
+
 =====================================
 * *only 1 pod is ready,*
 ```sh
@@ -558,7 +563,10 @@ kubectl describe pod sample-test-13ndfg
 
 # resolution - use higher instance type
 #instance type changed to - c7i-flex.large
+```
+![helm-and-pods.png](helm-and-pods.png)
 
+```sh
 # HPA
 kubectl get hpa
 # Service
@@ -573,11 +581,16 @@ a1b2c3d4.us-east-1.elb.amazonaws.com
 
 curl http://<EXTERNAL-IP>:8080 or access it from google
 ```
+![LBservice.png](LBservice.png)
+
+# Final Result
+![final-check.png](final-check.png)
 
 # STEP 7 Simulate Autoscaling
 * *if you want to test autoscaling* 
 * Generate Load
-```sh kubectl run load-generator \
+```sh 
+kubectl run load-generator \
 --image=busybox \
 -- /bin/sh -c "while true; do wget -q -O- http://sample-test:8080; done"
 
