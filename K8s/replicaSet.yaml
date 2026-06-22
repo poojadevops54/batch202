@@ -22,3 +22,5 @@ spec:
       containers:
         - name: spider
           image: nginx
+          ports:
+            -containorPort: 80
