@@ -23,4 +23,4 @@ spec:
     spec:
       containers:
         - name: spider2
-          image: nginx
+          image: httpd
