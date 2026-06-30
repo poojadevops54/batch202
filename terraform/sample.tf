@@ -1,5 +1,5 @@
 provider "aws" {
-    region = "eu-north-1"
+    region = var.region
 }
 terraform{
     backend "s3" {
@@ -12,8 +12,9 @@ terraform{
 resource "aws_instance" "myinstance" {
     ami = var.ami_id
     instance_type = var.instance_type
-    key_name = "my_key"
-    vpc_security_group_ids = ["sg-0eaa53a76d9c9fa6c",]
+    key_name = var.key_name
+    vpc_security_group_ids = [var.seurity_group_id]
+    availability_zone = var.availability_zone
     tags = {
         name = "pooja"
         Name = "myinstance"
@@ -21,17 +22,6 @@ resource "aws_instance" "myinstance" {
     }
 }
 
-variable "ami_id" {
-    description = "The AMI ID to use for the instance"
-    default     = "ami-0aba19e56f3eaec05"
-}
 
-variable "instance_type" {
-    description = "The instance type to use for the instance"
-    default     = "t3.micro"
-}
 
-output "public_ip" {
-    value = aws_instance.myinstance.public_ip
-}
 
