@@ -1,6 +1,14 @@
 provider "aws" {
     region = "eu-north-1"
 }
+terraform{
+    backend "s3" {
+        bucket = "somy7564"
+        key    = "terraform.tfstate"
+        region = "eu-north-1"
+    }
+
+}
 resource "aws_instance" "myinstance" {
     ami = "ami-0aba19e56f3eaec05"
     instance_type = "t3.micro"
