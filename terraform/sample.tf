@@ -4,12 +4,12 @@ provider "aws" {
 resource "aws_instance" "myinstance" {
     ami = "ami-0aba19e56f3eaec05"
     instance_type = "t3.micro"
-    key name = "id_rsa"
+    key_name = "id_rsa"
     vpc_security_group_ids = ["vpc-08a70fa338e668577",]
     tags = {
         name = "pooja"
         Name = "myinstance"
-        Enviroment = "dev"
+        Environment = "dev"
     }
 }
 
